@@ -6,6 +6,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup/vitest.setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
@@ -21,6 +22,8 @@ export default defineConfig({
         'coverage/',
         'cypress/',
         '**/*.d.ts',
+        '**/page.tsx',
+        '**/layout.tsx',
       ],
     },
   },

@@ -18,7 +18,7 @@
     "db:deploy": "prisma migrate deploy"
   },
   "dependencies": {
-    "@prisma/client": "^7.4.2",
+    "@prisma/client": "^6.16.3",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -37,7 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.1.0",
-    "prisma": "^7.4.2",
+    "prisma": "^6.16.3",
     "tailwindcss": "^4",
     "typescript": "^5",
     "typescript-eslint": "^8.56.1",

@@ -1,26 +1,47 @@
-import { defineConfig, globalIgnores } from 'eslint/config'
-import nextVitals from 'eslint-config-next/core-web-vitals'
-import nextTs from 'eslint-config-next/typescript'
+import js from '@eslint/js'
+import nextPlugin from '@next/eslint-plugin-next'
+import tseslint from 'typescript-eslint'
+import globals from 'globals'
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-
+export default [
+  js.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   {
+    files: ['**/*.{js,mjs,cjs}'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: import.meta.dirname,
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      '@next/next': nextPlugin,
+    },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'error', // Use "warn" se preferir apenas aviso
-      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
     },
   },
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    '.next/**',
-    'out/**',
-    'build/**',
-    'next-env.d.ts',
-  ]),
-])
-
-export default eslintConfig
+  {
+    ignores: ['.next/**', 'coverage/**', 'node_modules/**', 'dist/**'],
+  },
+]
